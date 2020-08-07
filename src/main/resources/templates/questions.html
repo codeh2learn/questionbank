@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+    <title>Questions and Answers</title>
+    <style>
+    table.table th:last-child {
+    width: 100px;
+    }
+    .add-new {
+    float: right;
+    border-radius: 50px;
+    }
+    button {
+    border:none;
+    background :none;
+    }
+    </style>
+</head>
+<body>
+<div th:switch="${questions}">
+    <h2 th:case="null">No question and answer!</h2>
+    <div th:case="*">
+        <h2 align="center">Questions and Answers</h2>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col pull-left">
+                    <a href="/" class="btn btn-dark fa fa-home mx-2 my-2"></a>
+                </div>
+                <div class="col pull-right">
+                    <form method="post" th:action="@{questions/add}">
+                        <button type="submit" class="btn btn-dark add-new mx-2 my-2"><i class="fa fa-plus mr-2"></i>Add new</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <table id="question_answers" class="table table-striped table-bordered table-hover">
+            <thead class="thead-dark">
+            <th>Question ID</th>
+            <th>Category</th>
+            <th>Question</th>
+            <th>Answer</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Actions</th>
+            </thead>
+            <tbody>
+            <tr th:each="question : ${questions}">
+                <td th:text="${question.questionId}"></td>
+                <td th:text="${question.category.subject} + '-' + ${question.category.examType}"></td>
+                <td th:text="${question.question}"></td>
+                <td th:text="${question.answer}"></td>
+                <td th:text="${#temporals.format(question.createdTs, 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="${#temporals.format(question.lastUpdatedTs, 'dd-MM-yyyy HH:mm')}"></td>
+                <td>
+                    <div class="row mx-auto">
+                        <form method="post" action="/questions/edit">
+                            <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                            <button type="submit" name="submit" value="value"  title="Edit"><i class="material-icons">&#xE254;</i></button>
+                        </form>
+                        <form method="post" onSubmit="return confirm('Are you sure you wish to delete?');" action="/questions/delete">
+                            <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                            <button type="submit" name="submit" value="value"  title="Delete"><i class="material-icons">&#xE872;</i></button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#question_answers').DataTable();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <title>Categories</title>
+    <style>
+    .add-new {
+    float: right;
+    border-radius: 50px;
+    }
+    button {
+    border:none;
+    background :none;
+    }
+    </style>
+</head>
+<body>
+    <div th:switch="${categories}">
+        <h2 th:case="null">No categories!</h2>
+        <div th:case="*">
+            <h2 align="center">Categories</h2>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col pull-left">
+                        <a href="/" class="btn btn-dark fa fa-home mx-2 my-2"></a>
+                    </div>
+                    <div class="col pull-right">
+                        <form method="post" th:action="@{category/add}">
+                            <button type="submit" class="btn btn-dark add-new mx-2 my-2"><i class="fa fa-plus mr-2"></i>Add new</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-bordered table-hover">
+                <thead class="thead-dark">
+                    <th>Category ID</th>
+                    <th>Subject</th>
+                    <th>Exam Type</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                    <th>Actions</th>
+                </thead>
+                <tbody>
+                    <tr th:each="category : ${categories}">
+                        <td th:text="${category.categoryId}"></td>
+                        <td th:text="${category.subject}"></td>
+                        <td th:text="${category.examType}"></td>
+                        <td th:text="${#temporals.format(category.createdTs, 'dd-MM-yyyy HH:mm')}"></td>
+                        <td th:text="${#temporals.format(category.lastUpdatedTs, 'dd-MM-yyyy HH:mm')}"></td>
+                        <td>
+                            <div class="row mx-auto">
+                                <form method="post" action="/category/edit" class="mx-2">
+                                    <input type="hidden" name="categoryId" th:value="${category.categoryId}"/>
+                                    <button type="submit" name="submit" value="value"  title="Edit"><i class="material-icons">&#xE254;</i></button>
+                                </form>
+                                <form method="post" onSubmit="return confirm('Deleting this would delete all questions of this category. \nAre you sure you wish to delete?');" action="/category/delete" class="mx-2">
+                                    <input type="hidden" name="categoryId" th:value="${category.categoryId}"/>
+                                    <button type="submit" name="submit" value="value"  title="Delete"><i class="material-icons">&#xE872;</i></button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

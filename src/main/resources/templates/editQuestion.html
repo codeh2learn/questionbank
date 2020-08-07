@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Edit Question</title>
+</head>
+<body>
+<div align="center" class="mt-5">
+    <h2>Edit Category</h2>
+    <form method="post" action="/questions/save" th:object="${qn}" class="jumbotron vertical-center mx-5 my-5">
+        <input type="hidden" th:field="*{questionId}" th:value="${qn.questionId}"/>
+        <input type="hidden" th:field="*{createdTs}" th:value="${qn.createdTs}"/>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label font-weight-bold">Category</label>
+            <div class="col-sm-8">
+                <select th:field="*{category.categoryId}" class="form-control" required>
+                    <option th:each="c : ${categories}" th:value="${c.categoryId}" th:text="${c.subject} + '-' + ${c.examType}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label font-weight-bold">Question</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{question}" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label font-weight-bold">Answer</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{answer}" required>
+            </div>
+        </div>
+        <div align="center">
+            <button type="submit" class="btn btn-dark">UPDATE</button>
+            <a href="javascript:history.back()" class="btn btn-dark">CANCEL</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
