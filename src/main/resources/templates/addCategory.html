@@ -8,9 +8,10 @@
     <title>Add Category</title>
 </head>
 <body>
+    <header th:insert="header.html :: header"> </header>
     <div align="center" class="mt-5">
         <h2>Add Category</h2>
-        <form method="post" action="/category/save" th:object="${category}" class="jumbotron vertical-center mx-5 my-5">
+        <form method="post" th:action="@{/category/save}" th:object="${category}" class="jumbotron vertical-center mx-5 my-5">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label font-weight-bold">Subject</label>
                 <div class="col-sm-8">

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title> </title>
+</head>
+<body>
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark pmd-navbar pmd-z-depth" th:fragment="header">
+    <a class="navbar-brand" href="/">
+        <img src="/images/logo.png" style="max-width:40px">
+    </a>
+    <div class="dropdown ml-auto">
+        <button class="btn btn-dark dropdown-toggle mx-5" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             <span th:if="${#authorization.expression('hasAuthority(''SCOPE_openid'')')}">
+                Logged in as <span sec:authentication="principal.fullName" ></span>
+            </span>
+            <span th:unless="${#authorization.expression('hasAuthority(''SCOPE_openid'')')}">
+                Logged in as <span sec:authentication="name"></span>
+            </span>
+        </button>
+        <div class="dropdown-menu">
+            <form th:action="@{/logout}" method="post" >
+                <button class="dropdown-item">Logout</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</nav>
+</body>
+</html>

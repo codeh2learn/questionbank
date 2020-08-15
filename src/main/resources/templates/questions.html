@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -24,6 +25,7 @@
     </style>
 </head>
 <body>
+<header th:insert="header.html :: header"> </header>
 <div th:switch="${questions}">
     <h2 th:case="null">No question and answer!</h2>
     <div th:case="*">
@@ -34,7 +36,7 @@
                     <a href="/" class="btn btn-dark fa fa-home mx-2 my-2"></a>
                 </div>
                 <div class="col pull-right">
-                    <form method="post" th:action="@{questions/add}">
+                    <form method="post" th:action="@{questions/add}" sec:authorize="hasRole('ADMIN')">
                         <button type="submit" class="btn btn-dark add-new mx-2 my-2"><i class="fa fa-plus mr-2"></i>Add new</button>
                     </form>
                 </div>
@@ -48,7 +50,7 @@
             <th>Answer</th>
             <th>Created At</th>
             <th>Updated At</th>
-            <th>Actions</th>
+            <th sec:authorize="hasRole('ADMIN')">Actions</th>
             </thead>
             <tbody>
             <tr th:each="question : ${questions}">
@@ -58,13 +60,13 @@
                 <td th:text="${question.answer}"></td>
                 <td th:text="${#temporals.format(question.createdTs, 'dd-MM-yyyy HH:mm')}"></td>
                 <td th:text="${#temporals.format(question.lastUpdatedTs, 'dd-MM-yyyy HH:mm')}"></td>
-                <td>
+                <td sec:authorize="hasRole('ADMIN')">
                     <div class="row mx-auto">
-                        <form method="post" action="/questions/edit">
+                        <form method="post" th:action="@{/questions/edit}">
                             <input type="hidden" name="questionId" th:value="${question.questionId}"/>
                             <button type="submit" name="submit" value="value"  title="Edit"><i class="material-icons">&#xE254;</i></button>
                         </form>
-                        <form method="post" onSubmit="return confirm('Are you sure you wish to delete?');" action="/questions/delete">
+                        <form method="post" onSubmit="return confirm('Are you sure you wish to delete?');" th:action="@{/questions/delete}">
                             <input type="hidden" name="questionId" th:value="${question.questionId}"/>
                             <button type="submit" name="submit" value="value"  title="Delete"><i class="material-icons">&#xE872;</i></button>
                         </form>
