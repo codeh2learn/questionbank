@@ -1,7 +1,7 @@
 # questionbank
 
-## Lesson 1
-A simple springboot web application which serves a html view and a string response
+## Lesson 4
+Securing the application with Spring Security using form login and oauth login (Okta)
 
 # Getting Started
 
