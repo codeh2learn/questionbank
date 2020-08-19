@@ -1,7 +1,7 @@
 # questionbank
 
-## Lesson 1
-A simple springboot web application which serves a html view and a string response
+## Lesson 2
+Fetching data from Postgres SQL database using Spring Data JPA
 
 # Getting Started
 
