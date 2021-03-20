@@ -20,6 +20,17 @@ CREATE TABLE public.question_answers (
 ); 
 
 # DML Queries
+INSERT INTO public.category (subject,exam_type)
+	VALUES ('English','GRE');
+INSERT INTO public.category (subject,exam_type)
+	VALUES ('Maths','GRE');
+INSERT INTO public.category (subject,exam_type)
+	VALUES ('Chemistry','IITJEE');
+INSERT INTO public.category (subject,exam_type)
+	VALUES ('Physics','IITJEE');
+INSERT INTO public.category (subject,exam_type)
+	VALUES('GK','UPSC');
+
 INSERT INTO public.question_answers (category_id,question,answer)
 	VALUES (2,'If x and y are non-negative integers such that 2x+3y=8 and z=x2+y2, what is the maximum value of z?','16');
 INSERT INTO public.question_answers (category_id,question,answer)
